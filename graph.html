@@ -1,0 +1,307 @@
+﻿<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo Σχέσεις Παραστατικών</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.26.0/cytoscape.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+            .header h1 {
+                color: white;
+                font-size: 24px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+        .legend-compact {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: white;
+            font-size: 14px;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 8px 15px;
+            border-radius: 20px;
+            backdrop-filter: blur(5px);
+        }
+
+            .legend-item i {
+                font-size: 18px;
+            }
+
+        #cy {
+            width: 100%;
+            height: calc(100vh - 70px);
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .node-content {
+            text-align: center;
+            color: white;
+        }
+
+        .header h1 {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1 id="graphTitle">
+            <i class="fas fa-network-wired"></i>
+            Δίκτυο Είδους
+        </h1>
+    </div>
+
+    <div id="cy"></div>
+
+    <script>
+        
+
+        let cy = null;
+
+        function safeNum(x) {
+            const n = Number(x);
+            return Number.isFinite(n) ? n : 0;
+        } 
+
+        function formatDateGR(dateStr) {
+            if (!dateStr) return "";
+            const d = new Date(dateStr);
+            if (isNaN(d.getTime())) return dateStr;
+
+            const dd = String(d.getDate()).padStart(2, "0");
+            const mm = String(d.getMonth() + 1).padStart(2, "0");
+            const yyyy = d.getFullYear();
+            return `${dd}/${mm}/${yyyy}`;
+        }
+
+        function buildGraph(payload) {
+
+            if (cy) {
+                cy.destroy();
+                cy = null;
+            }
+
+            const itemCode = payload?.itemCode || "";
+            const itemName = payload?.itemName || "";
+            const itemNodeId = "ITEM";
+
+            const titleEl = document.getElementById("graphTitle");
+            if (titleEl) {
+                titleEl.innerHTML = `<i class="fas fa-network-wired"></i> Δίκτυο Είδους: ${itemCode} - ${itemName}`;
+            }
+
+            const rows = Array.isArray(payload?.rows) ? payload.rows : [];
+
+            // ✅ 1) Priority sort: μικρότερο FINDOC πρώτα
+            rows.sort((a, b) => safeNum(a.findoc) - safeNum(b.findoc));
+
+            const nodes = [];
+            const edges = [];
+
+            // ITEM node (πάντα πρώτο)
+            nodes.push({
+                data: {
+                    id: itemNodeId,
+                    label: `🏷️\n${itemCode}\n${itemName}`,
+                    color: "#6d28d9",
+                    orderNo: 0,
+                    mtrl: Number(payload?.mtrl || 0) 
+                },
+                position: { x: 0, y: 0 }
+            });
+
+            // ✅ chain: ITEM -> #1 -> #2 -> ...
+            let prevNodeId = itemNodeId;
+
+            rows.forEach((r, idx) => {
+                const findoc = r.findoc;
+                const finCode = r.finCode || "";
+                const qtyNeed = safeNum(r.qtyNeed);
+                const runningQty = safeNum(r.runningQty);
+                const trnDateText = formatDateGR(r.trndate); 
+                const orderNo = idx + 1; // #1, #2, ...
+
+                const nodeId = "DOC_" + String(findoc);
+
+                // χρώμα (προαιρετικά)
+                let color = "#22c55e";        // πράσινο
+                if (runningQty < 0) color = "#ef4444"; // κόκκινο
+                if (runningQty === 0) color = "#64748b"; // γκρι
+
+                const label =
+                    `#${orderNo}\n` +
+                    `📄 ${finCode}\n` +
+                    `📅 ${trnDateText}\n` +
+                    `Ανεκτέλεστη Ποσότητα: ${qtyNeed}\n` +
+                    `Προοδευτικό: ${runningQty}`;
+
+                nodes.push({
+                    data: {
+                        id: nodeId,
+                        label,
+                        color,
+                        findoc: safeNum(findoc),
+                        finCode,
+                        trnDateText,
+                        qtyNeed,
+                        runningQty,
+                        orderNo
+                    },
+                    // ✅ preset positions: οριζόντια σειρά
+                    position: { x: orderNo * 240, y: 0 }
+                });
+
+                edges.push({
+                    data: {
+                        id: "e" + orderNo,
+                        source: prevNodeId,
+                        target: nodeId,
+                        label: "" // προαιρετικά: `${orderNo}`
+                    }
+                });
+
+                prevNodeId = nodeId;
+            });
+
+            // ✅ Cytoscape init
+            cy = cytoscape({
+                container: document.getElementById("cy"),
+                elements: [...nodes, ...edges],
+                style: [
+                    {
+                        selector: "node",
+                        style: {
+                            "background-color": "data(color)",
+                            "label": "data(label)",
+                            "text-valign": "center",
+                            "text-halign": "center",
+                            "color": "#fff",
+                            "text-outline-color": "data(color)",
+                            "text-outline-width": 2,
+                            "width": 140,
+                            "height": 140,
+                            "font-size": 12,
+                            "text-wrap": "wrap",
+                            "text-max-width": "130px",
+                            "font-weight": "bold",
+                            "border-width": 4,
+                            "border-color": "#fff"
+                        }
+                    },
+                    {
+                        selector: "edge",
+                        style: {
+                            "width": 4,
+                            "line-color": "#9ca3af",
+                            "target-arrow-color": "#9ca3af",
+                            "target-arrow-shape": "triangle",
+                            "curve-style": "bezier"
+                        }
+                    }
+                ],
+                // ✅ preset ώστε να μείνει με προτεραιότητα όπως το δώσαμε
+                layout: { name: "preset" }
+            });
+
+            cy.fit(50);
+
+            // Double click πάνω σε node
+            cy.on("dbltap", "node", function (evt) {
+                const n = evt.target;
+                const data = n.data();
+
+                // ITEM node -> άνοιξε είδος
+                if (data.id === "ITEM") {
+                    const mtrl = Number(data.mtrl || 0);
+                    if (!mtrl) return;
+
+                    if (window.chrome && window.chrome.webview) {
+                        window.chrome.webview.postMessage({
+                            action: "view-mtrl",
+                            mtrl: mtrl
+                        });
+                    }
+                    return;
+                }
+
+                // DOC node -> άνοιξε παραστατικό
+                const findoc = Number(data.findoc || 0);
+                if (!findoc) return;
+
+                if (window.chrome && window.chrome.webview) {
+                    window.chrome.webview.postMessage({
+                        action: "view-doc",
+                        findoc: findoc
+                    });
+                }
+            });
+
+        }
+
+
+        // Περιμένουμε payload από C#
+        if (window.chrome && window.chrome.webview) {
+            window.chrome.webview.addEventListener("message", (event) => {
+                try {
+                    const data = typeof event.data === "string" ? JSON.parse(event.data) : event.data;
+                    console.log("GRAPH PAYLOAD RECEIVED:", data);
+                    buildGraph(data);
+                } catch (err) {
+                    console.error("GRAPH PAYLOAD PARSE ERROR:", err, event.data);
+                }
+            });
+        } else {
+            console.warn("No WebView2 bridge found. Graph will not receive payload.");
+        }
+
+        (function init() {
+            // Αν είμαστε σε WebView2, περιμένουμε payload από message και ΔΕΝ χτίζουμε εδώ.
+            if (window.chrome && window.chrome.webview) return;
+
+            if (window.graphPayload) {
+                buildGraph(window.graphPayload);
+            } else if (window.graphPayloadJson) {
+                buildGraph(JSON.parse(window.graphPayloadJson));
+            } else {
+                console.log("No payload found");
+            }
+        })();
+    </script>
+
+</body>
+</html>

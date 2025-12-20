@@ -1,0 +1,303 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\soft1_ola\\S1PluginProject\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{C588150E-9335-4F49-A3A6-5A5FEA86DBD3}|S1PluginProject.csproj|C:\\soft1_ola\\S1PluginProject\\graphform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C588150E-9335-4F49-A3A6-5A5FEA86DBD3}|S1PluginProject.csproj|solutionrelative:graphform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C588150E-9335-4F49-A3A6-5A5FEA86DBD3}|S1PluginProject.csproj|C:\\soft1_ola\\S1PluginProject\\graphform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{C588150E-9335-4F49-A3A6-5A5FEA86DBD3}|S1PluginProject.csproj|solutionrelative:graphform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C588150E-9335-4F49-A3A6-5A5FEA86DBD3}|S1PluginProject.csproj|c:\\soft1_ola\\s1pluginproject\\apoform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C588150E-9335-4F49-A3A6-5A5FEA86DBD3}|S1PluginProject.csproj|solutionrelative:apoform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C588150E-9335-4F49-A3A6-5A5FEA86DBD3}|S1PluginProject.csproj|c:\\soft1_ola\\s1pluginproject\\apoform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{C588150E-9335-4F49-A3A6-5A5FEA86DBD3}|S1PluginProject.csproj|solutionrelative:apoform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C588150E-9335-4F49-A3A6-5A5FEA86DBD3}|S1PluginProject.csproj|C:\\soft1_ola\\S1PluginProject\\graph.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{C588150E-9335-4F49-A3A6-5A5FEA86DBD3}|S1PluginProject.csproj|solutionrelative:graph.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C588150E-9335-4F49-A3A6-5A5FEA86DBD3}|S1PluginProject.csproj|c:\\soft1_ola\\s1pluginproject\\mrp.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{C588150E-9335-4F49-A3A6-5A5FEA86DBD3}|S1PluginProject.csproj|solutionrelative:mrp.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C588150E-9335-4F49-A3A6-5A5FEA86DBD3}|S1PluginProject.csproj|C:\\soft1_ola\\S1PluginProject\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C588150E-9335-4F49-A3A6-5A5FEA86DBD3}|S1PluginProject.csproj|solutionrelative:form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C588150E-9335-4F49-A3A6-5A5FEA86DBD3}|S1PluginProject.csproj|c:\\soft1_ola\\s1pluginproject\\apoform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C588150E-9335-4F49-A3A6-5A5FEA86DBD3}|S1PluginProject.csproj|solutionrelative:apoform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C588150E-9335-4F49-A3A6-5A5FEA86DBD3}|S1PluginProject.csproj|c:\\soft1_ola\\s1pluginproject\\mrpcalculator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C588150E-9335-4F49-A3A6-5A5FEA86DBD3}|S1PluginProject.csproj|solutionrelative:mrpcalculator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C588150E-9335-4F49-A3A6-5A5FEA86DBD3}|S1PluginProject.csproj|C:\\soft1_ola\\S1PluginProject\\mrpsaldocrow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C588150E-9335-4F49-A3A6-5A5FEA86DBD3}|S1PluginProject.csproj|solutionrelative:mrpsaldocrow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C588150E-9335-4F49-A3A6-5A5FEA86DBD3}|S1PluginProject.csproj|C:\\soft1_ola\\S1PluginProject\\graphform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C588150E-9335-4F49-A3A6-5A5FEA86DBD3}|S1PluginProject.csproj|solutionrelative:graphform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C588150E-9335-4F49-A3A6-5A5FEA86DBD3}|S1PluginProject.csproj|C:\\soft1_ola\\S1PluginProject\\mrpbalstartrow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C588150E-9335-4F49-A3A6-5A5FEA86DBD3}|S1PluginProject.csproj|solutionrelative:mrpbalstartrow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C588150E-9335-4F49-A3A6-5A5FEA86DBD3}|S1PluginProject.csproj|C:\\soft1_ola\\S1PluginProject\\s1init.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C588150E-9335-4F49-A3A6-5A5FEA86DBD3}|S1PluginProject.csproj|solutionrelative:s1init.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C588150E-9335-4F49-A3A6-5A5FEA86DBD3}|S1PluginProject.csproj|C:\\soft1_ola\\S1PluginProject\\mrppurdocrow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C588150E-9335-4F49-A3A6-5A5FEA86DBD3}|S1PluginProject.csproj|solutionrelative:mrppurdocrow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C588150E-9335-4F49-A3A6-5A5FEA86DBD3}|S1PluginProject.csproj|C:\\soft1_ola\\S1PluginProject\\mrppurdocordrow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C588150E-9335-4F49-A3A6-5A5FEA86DBD3}|S1PluginProject.csproj|solutionrelative:mrppurdocordrow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C588150E-9335-4F49-A3A6-5A5FEA86DBD3}|S1PluginProject.csproj|C:\\soft1_ola\\S1PluginProject\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{C588150E-9335-4F49-A3A6-5A5FEA86DBD3}|S1PluginProject.csproj|solutionrelative:form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C588150E-9335-4F49-A3A6-5A5FEA86DBD3}|S1PluginProject.csproj|C:\\soft1_ola\\S1PluginProject\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C588150E-9335-4F49-A3A6-5A5FEA86DBD3}|S1PluginProject.csproj|solutionrelative:class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 15,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "ApoForm.Designer.cs",
+              "DocumentMoniker": "C:\\soft1_ola\\S1PluginProject\\ApoForm.Designer.cs",
+              "RelativeDocumentMoniker": "ApoForm.Designer.cs",
+              "ToolTip": "C:\\soft1_ola\\S1PluginProject\\ApoForm.Designer.cs",
+              "RelativeToolTip": "ApoForm.Designer.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-20T10:36:12.402Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "MrpCalculator.cs",
+              "DocumentMoniker": "C:\\soft1_ola\\S1PluginProject\\MrpCalculator.cs",
+              "RelativeDocumentMoniker": "MrpCalculator.cs",
+              "ToolTip": "C:\\soft1_ola\\S1PluginProject\\MrpCalculator.cs",
+              "RelativeToolTip": "MrpCalculator.cs",
+              "ViewState": "AgIAADMAAAAAAAAAAAAuwEMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-20T09:36:52.104Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "mrp.html",
+              "DocumentMoniker": "C:\\soft1_ola\\S1PluginProject\\mrp.html",
+              "RelativeDocumentMoniker": "mrp.html",
+              "ToolTip": "C:\\soft1_ola\\S1PluginProject\\mrp.html",
+              "RelativeToolTip": "mrp.html",
+              "ViewState": "AgIAALcBAAAAAAAAAAAwwMIBAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-11-29T10:12:21.132Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ApoForm.cs",
+              "DocumentMoniker": "C:\\soft1_ola\\S1PluginProject\\ApoForm.cs",
+              "RelativeDocumentMoniker": "ApoForm.cs",
+              "ToolTip": "C:\\soft1_ola\\S1PluginProject\\ApoForm.cs",
+              "RelativeToolTip": "ApoForm.cs",
+              "ViewState": "AgIAAEAAAAAAAAAAAAAgwFYAAABKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-29T10:12:21.943Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "MrpBalStartRow.cs",
+              "DocumentMoniker": "C:\\soft1_ola\\S1PluginProject\\MrpBalStartRow.cs",
+              "RelativeDocumentMoniker": "MrpBalStartRow.cs",
+              "ToolTip": "C:\\soft1_ola\\S1PluginProject\\MrpBalStartRow.cs",
+              "RelativeToolTip": "MrpBalStartRow.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-29T10:12:21.944Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ApoForm.cs [Design]",
+              "DocumentMoniker": "C:\\soft1_ola\\S1PluginProject\\ApoForm.cs",
+              "RelativeDocumentMoniker": "ApoForm.cs",
+              "ToolTip": "C:\\soft1_ola\\S1PluginProject\\ApoForm.cs [Design]",
+              "RelativeToolTip": "ApoForm.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-29T10:12:21.945Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "S1Init.cs",
+              "DocumentMoniker": "C:\\soft1_ola\\S1PluginProject\\S1Init.cs",
+              "RelativeDocumentMoniker": "S1Init.cs",
+              "ToolTip": "C:\\soft1_ola\\S1PluginProject\\S1Init.cs",
+              "RelativeToolTip": "S1Init.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-29T10:12:21.946Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Form1.cs",
+              "DocumentMoniker": "C:\\soft1_ola\\S1PluginProject\\Form1.cs",
+              "RelativeDocumentMoniker": "Form1.cs",
+              "ToolTip": "C:\\soft1_ola\\S1PluginProject\\Form1.cs",
+              "RelativeToolTip": "Form1.cs",
+              "ViewState": "AgIAAD0AAAAAAAAAAAApwEYAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-29T10:12:21.948Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "MrpSalDocRow.cs",
+              "DocumentMoniker": "C:\\soft1_ola\\S1PluginProject\\MrpSalDocRow.cs",
+              "RelativeDocumentMoniker": "MrpSalDocRow.cs",
+              "ToolTip": "C:\\soft1_ola\\S1PluginProject\\MrpSalDocRow.cs",
+              "RelativeToolTip": "MrpSalDocRow.cs",
+              "ViewState": "AgIAACsAAAAAAAAAAAA7wA8AAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-29T10:12:21.942Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "graph.html",
+              "DocumentMoniker": "C:\\soft1_ola\\S1PluginProject\\graph.html",
+              "RelativeDocumentMoniker": "graph.html",
+              "ToolTip": "C:\\soft1_ola\\S1PluginProject\\graph.html",
+              "RelativeToolTip": "graph.html",
+              "ViewState": "AgIAABMBAAAAAAAAAAAuwCgBAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-12-06T09:58:46.954Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "Form1.cs [Design]",
+              "DocumentMoniker": "C:\\soft1_ola\\S1PluginProject\\Form1.cs",
+              "RelativeDocumentMoniker": "Form1.cs",
+              "ToolTip": "C:\\soft1_ola\\S1PluginProject\\Form1.cs [Design]",
+              "RelativeToolTip": "Form1.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-06T08:17:39.637Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "MrpPurDocRow.cs",
+              "DocumentMoniker": "C:\\soft1_ola\\S1PluginProject\\MrpPurDocRow.cs",
+              "RelativeDocumentMoniker": "MrpPurDocRow.cs",
+              "ToolTip": "C:\\soft1_ola\\S1PluginProject\\MrpPurDocRow.cs",
+              "RelativeToolTip": "MrpPurDocRow.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-05T10:13:19.081Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "MrpPurDocOrdRow.cs",
+              "DocumentMoniker": "C:\\soft1_ola\\S1PluginProject\\MrpPurDocOrdRow.cs",
+              "RelativeDocumentMoniker": "MrpPurDocOrdRow.cs",
+              "ToolTip": "C:\\soft1_ola\\S1PluginProject\\MrpPurDocOrdRow.cs",
+              "RelativeToolTip": "MrpPurDocOrdRow.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-05T11:48:47.68Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "GraphForm.cs [Design]",
+              "DocumentMoniker": "C:\\soft1_ola\\S1PluginProject\\GraphForm.cs",
+              "RelativeDocumentMoniker": "GraphForm.cs",
+              "ToolTip": "C:\\soft1_ola\\S1PluginProject\\GraphForm.cs [Design]",
+              "RelativeToolTip": "GraphForm.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-06T10:04:27.425Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "GraphForm.Designer.cs",
+              "DocumentMoniker": "C:\\soft1_ola\\S1PluginProject\\GraphForm.Designer.cs",
+              "RelativeDocumentMoniker": "GraphForm.Designer.cs",
+              "ToolTip": "C:\\soft1_ola\\S1PluginProject\\GraphForm.Designer.cs",
+              "RelativeToolTip": "GraphForm.Designer.cs",
+              "ViewState": "AgIAABMAAAAAAAAAAAAEwCwAAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-06T10:09:09.781Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "GraphForm.cs",
+              "DocumentMoniker": "C:\\soft1_ola\\S1PluginProject\\GraphForm.cs",
+              "RelativeDocumentMoniker": "GraphForm.cs",
+              "ToolTip": "C:\\soft1_ola\\S1PluginProject\\GraphForm.cs",
+              "RelativeToolTip": "GraphForm.cs",
+              "ViewState": "AgIAAC4AAAAAAAAAAAAcwEEAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-06T10:08:35.826Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "Class1.cs",
+              "DocumentMoniker": "C:\\soft1_ola\\S1PluginProject\\Class1.cs",
+              "RelativeDocumentMoniker": "Class1.cs",
+              "ToolTip": "C:\\soft1_ola\\S1PluginProject\\Class1.cs",
+              "RelativeToolTip": "Class1.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-29T10:12:21.955Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

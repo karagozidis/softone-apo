@@ -1,0 +1,699 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MRP Results</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-main: #111827;
+            --bg-card: #0b1120;
+            --bg-alt-row: #f9fafb;
+            --bg-row: #eef2ff;
+            --border-soft: #d1d5db;
+            --text-main: #111827;
+            --text-muted: #4b5563;
+            --accent: #2563eb;
+        }
+
+        body {
+            padding: 15px;
+            margin: 0;
+            height: 100vh;
+            background: #82c7fc;
+            font-family: "Segoe UI", sans-serif;
+            color: var(--text-main);
+        }
+
+        .header-box {
+            margin-bottom: 15px;
+            padding: 15px;
+            background: #e2e8f0;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: #1e293b;
+        }
+
+        .header-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-right: 10px;
+            white-space: nowrap;
+        }
+
+            .header-title span.version-badge {
+                font-size: 11px;
+                padding: 2px 8px;
+                border-radius: 999px;
+                background: rgba(56, 189, 248, 0.1);
+                color: var(--accent);
+                border: 1px solid rgba(56, 189, 248, 0.3);
+            }
+
+        #searchInput {
+            flex: 1;
+            max-width: 500px;
+        }
+
+        .table-container {
+            height: calc(100vh - 110px);
+            overflow: auto;
+            background: #f3f4f6;
+            padding: 6px;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+            border: 1px solid rgba(148, 163, 184, 0.6);
+        }
+
+        thead tr:first-child th {
+            position: sticky;
+            top: 0;
+            z-index: 30;
+            background: #111827; /* ή #ffffff αν το θες άσπρο */
+            color: #f9fafb;
+        }
+
+        table {
+            font-size: 12px;
+            color: var(--text-main);
+            margin-bottom: 0;
+        }
+
+        thead th {
+            background: #1e293b;
+            color: #f8fafc;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            border-bottom: 1px solid var(--border-soft);
+            padding: 6px 6px;
+            font-weight: 600;
+            text-align: left;
+            white-space: nowrap;
+        }
+
+            thead th i {
+                margin-right: 4px;
+                opacity: 0.8;
+            }
+
+        tbody tr:nth-child(odd) {
+            background-color: var(--bg-row);
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: var(--bg-alt-row);
+        }
+
+        tbody tr:hover {
+            background: #e0e7ff;
+        }
+
+        td {
+            border-color: var(--border-soft) !important;
+            padding: 4px 6px;
+            vertical-align: middle;
+        }
+
+            td.text-end {
+                text-align: right;
+                font-variant-numeric: tabular-nums;
+            }
+
+            td.text-center {
+                text-align: center;
+            }
+
+        /* LOADING OVERLAY */
+        #loadingOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15,23,42,0.85);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(4px);
+            z-index: 9999;
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+
+            #loadingOverlay.hidden {
+                opacity: 0;
+                pointer-events: none;
+            }
+
+        .status-bar {
+            position: relative;
+            width: 70px;
+            height: 14px;
+            background: #1f2937;
+            border-radius: 999px;
+            overflow: hidden;
+            display: inline-flex;
+            align-items: center;
+            justify-content: flex-start;
+            border: 1px solid rgba(148,163,184,0.4);
+        }
+
+        .status-bar-fill {
+            height: 100%;
+            border-radius: 999px;
+            transition: width 0.2s ease;
+        }
+
+            .status-bar-fill.full {
+                background: #22c55e; /* πράσινο */
+            }
+
+            .status-bar-fill.partial {
+                background: #eab308; /* κίτρινο */
+            }
+
+            .status-bar-fill.low {
+                background: #ef4444; /* κόκκινο */
+            }
+
+        .status-bar-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 10px;
+            font-weight: 600;
+            color: #f9fafb;
+            text-shadow: 0 0 3px rgba(0,0,0,0.7);
+        }
+
+        th.sorted-asc::after {
+            content: " ▲";
+            font-size: 10px;
+            color: var(--accent);
+        }
+
+        th.sorted-desc::after {
+            content: " ▼";
+            font-size: 10px;
+            color: var(--accent);
+        }
+
+
+        th .filter-select {
+            background: #ffffff;
+            color: #111827;
+            border: 1px solid #9ca3af;
+            border-radius: 6px;
+            font-size: 11px;
+        }
+
+        thead tr#filter-row th {
+            position: sticky;
+            top: 26px;
+            z-index: 25;
+            background: #e5e7eb;
+            border-bottom: 1px solid #cbd5e1;
+            padding: 2px 4px;
+        }
+
+
+        .context-menu {
+            position: fixed;
+            z-index: 10000;
+            display: none;
+            min-width: 180px;
+            background: #111827;
+            color: #e5e7eb;
+            border-radius: 6px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.35);
+            border: 1px solid #4b5563;
+            font-size: 13px;
+        }
+
+            .context-menu ul {
+                list-style: none;
+                margin: 0;
+                padding: 4px 0;
+            }
+
+            .context-menu li {
+                padding: 6px 12px;
+                cursor: pointer;
+                white-space: nowrap;
+            }
+
+                .context-menu li i {
+                    margin-right: 6px;
+                }
+
+                .context-menu li:hover {
+                    background: #1f2937;
+                }
+    </style>
+
+</head>
+
+
+<body>
+
+    <!-- LOADING OVERLAY -->
+    <div id="loadingOverlay">
+        <div class="text-center">
+            <i class="fa-solid fa-spinner fa-spin fa-3x" style="color:#555;"></i>
+            <div class="mt-3" style="font-size:18px;color:#555;">Φόρτωση δεδομένων…</div>
+        </div>
+    </div>
+
+    <div id="contextMenu" class="context-menu">
+        <ul>
+            <li id="ctx-view-doc">
+                <i class="fa-regular fa-file-lines"></i>
+                Προβολή Παραστατικού
+            </li>
+        </ul>        
+        <ul>
+            <li id="ctx-view-graph">
+                <i class="fa-regular fa-code"></i>
+                Graph Sample
+            </li>
+        </ul>
+    </div>
+
+
+    <div class="header-box">
+        <div class="header-title">
+            <i class="fa-solid fa-layer-group"></i>
+            <span> APO </span>
+            <span class="version-badge">v2.0</span>
+        </div>
+
+        <i class="fa-solid fa-magnifying-glass fa-lg" style="color:#9ca3af;"></i>
+        <input id="searchInput"
+               class="form-control form-control-sm"
+               placeholder="Αναζήτηση σε όλες τις στήλες… (Enter για αναζήτηση, κενό + Enter για reset)">
+    </div>
+
+    <div class="table-container">
+        <table class="table table-striped table-hover table-bordered table-sm">
+            <thead>
+                <tr>
+                    <th data-sort-key="StatusPercent" data-type="number">Κατάσταση %</th>
+                    <th data-sort-key="OrdStatus" data-type="string"><i class="fa-solid fa-traffic-light"></i> Κατάσταση</th>
+                    <th data-sort-key="Fason" data-type="string"><i class="fa-solid fa-traffic-light"></i> Φασόν</th>
+                    <th data-sort-key="FinCode" data-type="string"><i class="fa-regular fa-file-lines"></i> Παραστατικό</th>
+                    <th data-sort-key="TRNDATE" data-type="date"><i class="fa-regular fa-calendar"></i> Ημερ. Παραστατικόυ</th>
+                    <th data-sort-key="CustomerName" data-type="string"><i class="fa-solid fa-box"></i> Πελάτης</th>
+                    <th data-sort-key="MpName" data-type="string"><i class="fa-solid fa-box"></i> Ομάδα ΜΠ</th>
+                    <th data-sort-key="Comments1" data-type="string"><i class="fa-solid fa-box"></i> Αιτιολογία 2</th>
+                    <th data-sort-key="ItemCode" data-type="string"><i class="fa-solid fa-tag"></i> Είδος</th>
+                    <th data-sort-key="ItemName" data-type="string"><i class="fa-solid fa-tag"></i> Περιγραφή Είδους</th>
+                    <th data-sort-key="UnitShortcut" data-type="string"><i class="fa-solid fa-tag"></i> M.M</th>
+                    <th data-sort-key="BUNAME" data-type="string"><i class="fa-solid fa-tag"></i> BU</th>
+                    <th data-sort-key="QTY1NCOV" data-type="number"><i class="fa-solid fa-cubes-stacked"></i> Ανεκτέλεστη Ποσότητα </th>
+                    <th data-sort-key="Inv" data-type="number"><i class="fa-solid fa-warehouse"></i> Διαθέσιμη ποσότητα εκτέλεσης</th>
+                    <th data-sort-key="InvRem" data-type="number"><i class="fa-solid fa-hourglass-half"></i> Εκκρ.ανεκτέλεστη ποσότητα</th>
+                    <th data-sort-key="RunningQty" data-type="number"><i class="fa-solid fa-chart-line"></i> Προοδευτικό Απόθεμα</th>
+                    <th data-sort-key="PurRest" data-type="number"><i class="fa-solid fa-cart-shopping"></i> Εκκρ. ποσ.Αγορας - Παραγωγής</th>
+                    <th data-sort-key="IntRest" data-type="number"><i class="fa-solid fa-file-circle-check"></i> Εκκρ. ποσ.Ενδοδιακίνηση προς Αγχίαλο</th>
+                    <th data-sort-key="ReservedPur" data-type="number"><i class="fa-solid fa-file-invoice"></i> Προοδευτικό (Δέσμευση)</th>
+                    <th data-sort-key="PurInv" data-type="number"><i class="fa-solid fa-truck-ramp-box"></i> Ποσότητα ανάγκης προς αγορά - παραγωγή </th>
+                    <th data-sort-key="PurInvRem" data-type="number"><i class="fa-solid fa-circle-exclamation"></i> WMS Ακκατάληλη ποσότητα</th>
+                    <th data-sort-key="WmsCusQty" data-type="number"><i class="fa-solid fa-clipboard-check"></i> WMS Ποσότητα πελάτη</th>
+                    <th data-sort-key="RouteName" data-type="string"><i class="fa-regular fa-calendar"></i> Ημερ.Παράδοσης</th>
+                    <th data-sort-key="DistrictName" data-type="string"><i class="fa-solid fa-circle-exclamation"></i> Δρομολογητής</th>
+                    <th data-sort-key="DistrictName" data-type="string"><i class="fa-solid fa-circle-exclamation"></i> Νομός</th>
+                </tr>
+
+
+                <tr id="filter-row">
+                    <!-- Θα γεμίσει με JS -->
+                </tr>
+            </thead>
+            <tbody id="mrp-body">
+                <!-- JS injects rows -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        console.log("HTML LOADED");
+
+
+
+        let fullData = [];
+        let currentSearchText = "";
+        let currentFilters = {};
+        let currentSortKey = null;
+        let currentSortDir = "asc";
+        let sortingInitialized = false;
+        let filtersInitialized = false;
+        let currentContextFindoc = null;
+
+        // ---------------------------------------------------------
+        // RECEIVE JSON FROM C#
+        // ---------------------------------------------------------
+        window.chrome.webview.addEventListener("message", event => {
+            console.log("MESSAGE RECEIVED:", event.data);
+
+            try {
+                fullData = JSON.parse(event.data);
+
+                buildFilterRow();
+                applyAllFiltersAndSort();
+
+                document.getElementById("loadingOverlay").classList.add("hidden");
+
+                initSorting();
+                initSearch();
+            } catch (err) {
+                console.error("JSON PARSE ERROR:", err);
+            }
+        });
+
+        // ---------------------------------------------------------
+        // BUILD FILTER ROW (Excel-style)
+        // ---------------------------------------------------------
+        function buildFilterRow() {
+            if (filtersInitialized) return;
+            filtersInitialized = true;
+
+            const headerRow = document.querySelector("thead tr");
+            const headers = headerRow.querySelectorAll("th");
+            const filterRow = document.getElementById("filter-row");
+            filterRow.innerHTML = "";
+
+            for (let i = 0; i < headers.length; i++) {
+                const th = headers[i];
+                const key = th.getAttribute("data-sort-key");
+                const filterTh = document.createElement("th");
+
+                if (!key) {
+                    filterTh.innerHTML = "";
+                } else {
+
+                    const valuesSet = new Set();
+                    for (const row of fullData) {
+                        const val = row[key];
+                        if (val !== null && val !== undefined && val !== "") {
+                            valuesSet.add(String(val));
+                        }
+                    }
+                    const values = Array.from(valuesSet).sort((a, b) =>
+                        a.localeCompare(b, "el", { numeric: true, sensitivity: "base" })
+                    );
+
+                    const select = document.createElement("select");
+                    select.className = "filter-select form-select form-select-sm";
+                    select.setAttribute("data-filter-key", key);
+
+                    // option "Όλα"
+                    const optAll = document.createElement("option");
+                    optAll.value = "";
+                    optAll.textContent = "Όλα";
+                    select.appendChild(optAll);
+
+                    for (const v of values) {
+                        const opt = document.createElement("option");
+                        opt.value = v;
+                        opt.textContent = v;
+                        select.appendChild(opt);
+                    }
+
+                    select.addEventListener("change", function () {
+                        const k = this.getAttribute("data-filter-key");
+                        currentFilters[k] = this.value;
+                        applyAllFiltersAndSort();
+                    });
+
+                    filterTh.appendChild(select);
+                }
+
+                filterRow.appendChild(filterTh);
+            }
+        }
+
+        // ---------------------------------------------------------
+        // APPLY FILTERS + SORT
+        // ---------------------------------------------------------
+        function applyAllFiltersAndSort() {
+            let rows = fullData.slice();
+
+            // 1) Global search
+            if (currentSearchText) {
+                const text = currentSearchText.toLowerCase();
+                rows = rows.filter(row =>
+                    Object.values(row).join(" ").toLowerCase().includes(text)
+                );
+            }
+
+            // 2) Column filters
+            for (const key in currentFilters) {
+                const val = currentFilters[key];
+                if (!val) continue;
+
+                rows = rows.filter(row => String(row[key]) === val);
+            }
+
+            // 3) Sorting
+            if (currentSortKey) {
+                const th = document.querySelector('thead th[data-sort-key="' + currentSortKey + '"]');
+                const type = th ? (th.getAttribute("data-type") || "string") : "string";
+
+                rows.sort((a, b) => compareValues(a[currentSortKey], b[currentSortKey], type));
+                if (currentSortDir === "desc") rows.reverse();
+            }
+
+            renderTable(rows);
+
+
+
+        }
+
+        // ---------------------------------------------------------
+        // RENDER TABLE
+        // ---------------------------------------------------------
+        function renderTable(rows) {
+            let html = "";
+
+            for (const r of rows) {
+                let rawStatus = Number(r.StatusPercent || 0);
+                if (isNaN(rawStatus)) rawStatus = 0;
+                rawStatus = Math.max(0, Math.min(100, rawStatus));
+
+                let statusClass = "full";
+                if (rawStatus < 100 && rawStatus >= 50) statusClass = "partial";
+                if (rawStatus < 50) statusClass = "low";
+
+                html += `
+                <tr data-findoc="${r.FINDOC}">
+                    <td>
+                        <div class="status-bar">
+                            <div class="status-bar-fill ${statusClass}" style="width:${rawStatus}%;"></div>
+                            <span class="status-bar-text">${rawStatus.toFixed(2)}%</span>
+                        </div>
+                    </td>
+                    <td>${r.OrdStatus}</td>
+                    <td>${r.Fason}</td>
+                    <td>${r.FinCode}</td>
+                    <td>${formatDate(r.TRNDATE)}</td>
+                    <td>${r.CustomerName}</td>
+                    <td>${r.MpName}</td>
+                    <td>${r.Comments1 || ""}</td>
+                    <td>${r.ItemCode}</td>
+                    <td>${r.ItemName}</td>
+                    <td class="text-center">${r.UnitShortcut}</td>
+                    <td class="text-center">${r.BUNAME}</td>
+                    <td class="text-end">${r.QTY1NCOV}</td>
+                    <td class="text-end">${r.Inv}</td>
+                    <td class="text-end">${r.InvRem}</td>
+                    <td class="text-end">${r.RunningQty}</td>
+                    <td class="text-end">${r.PurRest}</td>
+                    <td class="text-end">${r.IntRest}</td>
+                    <td class="text-end">${r.ReservedPur}</td>
+                    <td class="text-end">${r.PurInv}</td>
+                    <td class="text-end">${r.PurInvRem}</td>
+                    <td class="text-end">${r.WmsInAppro}</td>
+                    <td class="text-end">${r.WmsCusQty}</td>
+                    <td>${r.RouteName}</td>
+                    <td>${r.DistrictName}</td>
+                </tr>`;
+            }
+
+            document.getElementById("mrp-body").innerHTML = html;
+        }
+
+
+        // ---------------------------------------------------------
+        // SEARCH (ENTER KEY)
+        // ---------------------------------------------------------
+        function initSearch() {
+            const input = document.getElementById("searchInput");
+            input.addEventListener("keydown", function (e) {
+                if (e.key === "Enter") {
+                    currentSearchText = this.value.trim();
+                    applyAllFiltersAndSort();
+                }
+            });
+        }
+
+        // ---------------------------------------------------------
+        // SORTING
+        // ---------------------------------------------------------
+        function initSorting() {
+            if (sortingInitialized) return;
+            sortingInitialized = true;
+
+            const headers = document.querySelectorAll("thead th[data-sort-key]");
+            for (let i = 0; i < headers.length; i++) {
+                (function (th) {
+                    th.style.cursor = "pointer";
+                    th.addEventListener("click", function () {
+                        const key = th.getAttribute("data-sort-key");
+                        if (!key) return;
+
+                        if (currentSortKey === key) {
+                            currentSortDir = currentSortDir === "asc" ? "desc" : "asc";
+                        } else {
+                            currentSortKey = key;
+                            currentSortDir = "asc";
+                        }
+
+                        applyAllFiltersAndSort();
+                        updateSortIndicators(th);
+                    });
+                })(headers[i]);
+            }
+        }
+
+        function compareValues(a, b, type) {
+            if (a == null && b == null) return 0;
+            if (a == null) return -1;
+            if (b == null) return 1;
+
+            if (type === "number") {
+                const na = Number(a);
+                const nb = Number(b);
+                if (isNaN(na) || isNaN(nb)) {
+                    return String(a).localeCompare(String(b), "el", { numeric: true, sensitivity: "base" });
+                }
+                return na - nb;
+            }
+
+            if (type === "date") {
+                const da = new Date(a);
+                const db = new Date(b);
+                if (isNaN(da.getTime()) || isNaN(db.getTime())) {
+                    return String(a).localeCompare(String(b), "el", { numeric: true, sensitivity: "base" });
+                }
+                return da - db;
+            }
+
+            // default: string
+            return String(a).localeCompare(String(b), "el", { numeric: true, sensitivity: "base" });
+        }
+
+        function updateSortIndicators(activeTh) {
+            const headers = document.querySelectorAll("thead th");
+            for (let i = 0; i < headers.length; i++) {
+                headers[i].classList.remove("sorted-asc", "sorted-desc");
+            }
+            if (currentSortDir === "asc") {
+                activeTh.classList.add("sorted-asc");
+            } else {
+                activeTh.classList.add("sorted-desc");
+            }
+        }
+
+        // ---------------------------------------------------------
+        // DATE FORMATTER
+        // ---------------------------------------------------------
+        function formatDate(dateStr) {
+            if (!dateStr) return "";
+
+            let d = new Date(dateStr);
+            if (isNaN(d.getTime())) return dateStr;
+
+            let day = String(d.getDate()).padStart(2, "0");
+            let month = String(d.getMonth() + 1).padStart(2, "0");
+            let year = d.getFullYear();
+
+            return `${day}/${month}/${year}`;
+        }
+
+        const tbody = document.getElementById("mrp-body");
+        const contextMenu = document.getElementById("contextMenu");
+        const tableContainer = document.querySelector(".table-container");
+
+        // Δεξί κλικ σε γραμμή → ανοίγει menu
+        tbody.addEventListener("contextmenu", function (e) {
+            e.preventDefault();
+
+            const tr = e.target.closest("tr");
+            if (!tr) return;
+
+            const findoc = tr.getAttribute("data-findoc");
+            if (!findoc) return;
+
+            currentContextFindoc = Number(findoc);
+
+            contextMenu.style.left = e.clientX + "px";
+            contextMenu.style.top = e.clientY + "px";
+            contextMenu.style.display = "block";
+        });
+
+        // Κλείσιμο menu σε click οπουδήποτε
+        document.addEventListener("click", () => {
+            contextMenu.style.display = "none";
+        });
+
+        // Κλείσιμο menu σε scroll του πίνακα
+        tableContainer.addEventListener("scroll", function () {
+            contextMenu.style.display = "none";
+        });
+
+        // Κλικ στο "Προβολή Παραστατικού"
+        document.getElementById("ctx-view-doc").addEventListener("click", function () {
+            contextMenu.style.display = "none";
+
+            if (!currentContextFindoc) return;
+
+            window.chrome.webview.postMessage({
+                action: "view-doc",
+                findoc: currentContextFindoc
+            });
+        });
+
+        document.getElementById("ctx-view-graph").addEventListener("click", function () {
+            contextMenu.style.display = "none";
+
+            if (!currentContextFindoc) return;
+
+            window.chrome.webview.postMessage({
+                action: "view-graph",
+                findoc: currentContextFindoc
+            });
+        });
+
+
+    </script>
+
+
+</body>
+</html>
