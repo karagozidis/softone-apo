@@ -247,43 +247,45 @@
             font-size: 13px;
         }
 
-        .context-menu ul {
+            .context-menu ul {
                 list-style: none;
                 margin: 0;
                 padding: 4px 0;
-        }
+            }
 
-        .context-menu li {
+            .context-menu li {
                 padding: 6px 12px;
                 cursor: pointer;
                 white-space: nowrap;
-        }
+            }
 
-        .context-menu li i {
+                .context-menu li i {
                     margin-right: 6px;
-        }
+                }
 
-        .context-menu li:hover {
+                .context-menu li:hover {
                     background: #1f2937;
-        }
+                }
 
         #btnRefresh {
-            margin-left: auto; /* το στέλνει τέρμα δεξιά */
+            margin-left: auto;
             border-color: #9ca3af;
             color: #1e293b;
         }
 
-        #btnRefresh:hover {
+            #btnRefresh:hover {
                 background: #e5e7eb;
-        }
+            }
 
 
         table {
-            table-layout: fixed; /* απαραίτητο για σωστό resize */
+            table-layout: fixed;
+            width: max-content;
+            min-width: 100%;
         }
 
         thead th {
-            position: relative; /* για να "κάτσει" το resizer δεξιά */
+            position: relative;
             user-select: none;
         }
 
@@ -298,17 +300,17 @@
             z-index: 50;
         }
 
-        /* λίγο “grip” οπτικά */
-         .th-resizer::after {
-              content: "";
-              position: absolute;
-              top: 25%;
-              right: 2px;
-              width: 2px;
-              height: 50%;
-              background: rgba(255,255,255,0.35);
-              border-radius: 2px;
-         }
+            /* λίγο “grip” οπτικά */
+            .th-resizer::after {
+                content: "";
+                position: absolute;
+                top: 25%;
+                right: 2px;
+                width: 2px;
+                height: 50%;
+                background: rgba(255,255,255,0.35);
+                border-radius: 2px;
+            }
 
         /* drag visual */
         th.dragging {
@@ -331,6 +333,15 @@
             max-width: 160px;
             object-fit: contain;
             opacity: 0.95;
+        }
+
+        tfoot td {
+            background: #111827;
+            color: #f9fafb;
+            font-weight: 700;
+            position: sticky;
+            bottom: 0;
+            z-index: 20;
         }
     </style>
 
@@ -423,6 +434,7 @@
                     <th data-sort-key="ItemName" data-type="string"><i class="fa-solid fa-tag"></i> Περιγραφή Είδους</th>
                     <th data-sort-key="UnitShortcut" data-type="string"><i class="fa-solid fa-tag"></i> M.M</th>
                     <th data-sort-key="BUNAME" data-type="string"><i class="fa-solid fa-tag"></i> BU</th>
+                    <th data-sort-key="QTY1" data-type="number"><i class="fa-solid fa-cubes-stacked"></i> Συν.Ποσότητα Παραστατικού </th>
                     <th data-sort-key="QTY1NCOV" data-type="number"><i class="fa-solid fa-cubes-stacked"></i> Ανεκτέλεστη Ποσότητα </th>
                     <th data-sort-key="Inv" data-type="number"><i class="fa-solid fa-warehouse"></i> Διαθέσιμη ποσότητα εκτέλεσης</th>
                     <th data-sort-key="InvRem" data-type="number"><i class="fa-solid fa-hourglass-half"></i> Εκκρ.ανεκτέλεστη ποσότητα</th>
@@ -430,11 +442,11 @@
                     <th data-sort-key="PurRest" data-type="number"><i class="fa-solid fa-cart-shopping"></i> Εκκρ. ποσ.Αγορας - Παραγωγής</th>
                     <th data-sort-key="IntRest" data-type="number"><i class="fa-solid fa-file-circle-check"></i> Εκκρ. ποσ.Ενδοδιακίνηση προς Αγχίαλο</th>
                     <th data-sort-key="ReservedPur" data-type="number"><i class="fa-solid fa-file-invoice"></i> Προοδευτικό (Δέσμευση)</th>
-                    <th data-sort-key="PurInv" data-type="number"><i class="fa-solid fa-truck-ramp-box"></i> Ποσότητα ανάγκης προς αγορά - παραγωγή </th>
-                    <th data-sort-key="PurInvRem" data-type="number"><i class="fa-solid fa-circle-exclamation"></i> WMS Ακκατάληλη ποσότητα</th>
+                    <th data-sort-key="PurInvRem" data-type="number"><i class="fa-solid fa-truck-ramp-box"></i> Ποσότητα ανάγκης προς αγορά - παραγωγή </th>
+                    <th data-sort-key="WmsInAppro" data-type="number"><i class="fa-solid fa-circle-exclamation"></i> WMS Ακκατάληλη ποσότητα</th>
                     <th data-sort-key="WmsCusQty" data-type="number"><i class="fa-solid fa-clipboard-check"></i> WMS Ποσότητα πελάτη</th>
-                    <th data-sort-key="RouteName" data-type="string"><i class="fa-regular fa-calendar"></i> Ημερ.Παράδοσης</th>
-                    <th data-sort-key="DistrictName" data-type="string"><i class="fa-solid fa-circle-exclamation"></i> Δρομολογητής</th>
+                    <th data-sort-key="DelivDate" data-type="string"><i class="fa-regular fa-calendar"></i> Ημερ.Παράδοσης</th>
+                    <th data-sort-key="RouteName" data-type="string"><i class="fa-solid fa-circle-exclamation"></i> Δρομολογητής</th>
                     <th data-sort-key="DistrictName" data-type="string"><i class="fa-solid fa-circle-exclamation"></i> Νομός</th>
                 </tr>
 
@@ -446,11 +458,15 @@
             <tbody id="mrp-body">
                 <!-- JS injects rows -->
             </tbody>
+            <tfoot>
+                <tr id="sum-row"></tr>
+            </tfoot>
+
         </table>
     </div>
 
     <script>
-       //console.log("HTML LOADED");
+        //console.log("HTML LOADED");
 
         //console.log("GRAPH HTML LOADED");
 
@@ -491,11 +507,11 @@
                 initColumnResize();
                 initColumnReorder();
 
-                
+
                 const sp = document.getElementById("refreshSpinner");
                 if (sp) sp.style.display = "none";
 
-                
+
                 const btn = document.getElementById("btnRefresh");
                 if (btn) btn.disabled = false;
             } catch (err) {
@@ -601,12 +617,85 @@
 
 
         }
+        function toNumber(v) {
+            const n = Number(String(v ?? "").replace(",", "."));
+            return isNaN(n) ? 0 : n;
+        }
+
+        function formatNumber(n) {
+            // ελληνικό format, άλλαξέ το αν θες
+            return Number(n || 0).toLocaleString("el-GR", { maximumFractionDigits: 2 });
+        }
+
+        function autoFitColumns() {
+            const table = document.querySelector(".table-container table");
+            if (!table) return;
+
+            const colgroup = ensureColgroup();
+            if (!colgroup) return;
+
+            const headerRow = table.tHead?.rows?.[0];
+            const filterRow = table.tHead?.rows?.[1];
+            const bodyRows = table.tBodies?.[0]?.rows || [];
+
+            if (!headerRow) return;
+
+            const colCount = headerRow.cells.length;
+
+            // (προαιρετικό) βάλε ένα ταβάνι για να μη γίνει “άπειρη” στήλη από ένα τεράστιο string
+            const MAX_COL_WIDTH = 600; // px (άλλαξέ το ή κάν’ το null)
+
+            for (let c = 0; c < colCount; c++) {
+                let maxW = 0;
+
+                // header
+                const th = headerRow.cells[c];
+                if (th) maxW = Math.max(maxW, th.scrollWidth);
+
+                // filter row (select)
+                if (filterRow && filterRow.cells[c]) {
+                    maxW = Math.max(maxW, filterRow.cells[c].scrollWidth);
+                }
+
+                // body cells
+                for (let r = 0; r < bodyRows.length; r++) {
+                    const td = bodyRows[r].cells[c];
+                    if (td) maxW = Math.max(maxW, td.scrollWidth);
+                }
+
+                // “αέρας” για padding/borders
+                let finalW = maxW + 16;
+
+                if (MAX_COL_WIDTH && finalW > MAX_COL_WIDTH) finalW = MAX_COL_WIDTH;
+
+                if (colgroup.children[c]) {
+                    colgroup.children[c].style.width = `${finalW}px`;
+                }
+            }
+        }
+
+
 
         // ---------------------------------------------------------
         // RENDER TABLE
         // ---------------------------------------------------------
         function renderTable(rows) {
             let html = "";
+
+            // ---- totals (μόνο για αριθμητικές στήλες) ----
+            const totals = {
+                QTY1: 0,
+                QTY1NCOV: 0,
+                Inv: 0,
+                InvRem: 0,
+                RunningQty: 0,
+                PurRest: 0,
+                IntRest: 0,
+                ReservedPur: 0,
+                PurInvRem: 0,
+                WmsInAppro: 0,
+                WmsCusQty: 0
+            };
 
             for (const r of rows) {
                 let rawStatus = Number(r.StatusPercent || 0);
@@ -617,44 +706,99 @@
                 if (rawStatus < 100 && rawStatus >= 50) statusClass = "partial";
                 if (rawStatus < 50) statusClass = "low";
 
+                // accumulate totals
+                totals.QTY1 += toNumber(r.QTY1);
+                totals.QTY1NCOV += toNumber(r.QTY1NCOV);
+                totals.Inv += toNumber(r.Inv);
+                totals.InvRem += toNumber(r.InvRem);
+                totals.RunningQty += toNumber(r.RunningQty);
+                totals.PurRest += toNumber(r.PurRest);
+                totals.IntRest += toNumber(r.IntRest);
+                totals.ReservedPur += toNumber(r.ReservedPur);
+                totals.PurInvRem += toNumber(r.PurInvRem);
+                totals.WmsInAppro += toNumber(r.WmsInAppro);
+                totals.WmsCusQty += toNumber(r.WmsCusQty);
+
                 html += `
-                <tr data-findoc="${r.FINDOC}" data-trdr="${r.TRDR}" data-mtrl="${r.MTRL}">    
-                    <td>
-                        <div class="status-bar">
-                            <div class="status-bar-fill ${statusClass}" style="width:${rawStatus}%;"></div>
-                            <span class="status-bar-text">${rawStatus.toFixed(2)}%</span>
-                        </div>
-                    </td>
-                    <td>${r.OrdStatus}</td>
-                    <td>${r.CCCNPCOMPENTENT}</td>
-                    <td>${r.Fason}</td>
-                    <td>${r.FinCode}</td>
-                    <td>${formatDate(r.TRNDATE)}</td>
-                    <td>${r.CustomerName}</td>
-                    <td>${r.MpName}</td>
-                    <td>${r.Comments1 || ""}</td>
-                    <td>${r.ItemCode}</td>
-                    <td>${r.ItemName}</td>
-                    <td class="text-center">${r.UnitShortcut}</td>
-                    <td class="text-center">${r.BUNAME}</td>
-                    <td class="text-end">${r.QTY1NCOV}</td>
-                    <td class="text-end">${r.Inv}</td>
-                    <td class="text-end">${r.InvRem}</td>
-                    <td class="text-end">${r.RunningQty}</td>
-                    <td class="text-end">${r.PurRest}</td>
-                    <td class="text-end">${r.IntRest}</td>
-                    <td class="text-end">${r.ReservedPur}</td>
-                    <td class="text-end">${r.PurInv}</td>
-                    <td class="text-end">${r.PurInvRem}</td>
-                    <td class="text-end">${r.WmsInAppro}</td>
-                    <td class="text-end">${r.WmsCusQty}</td>
-                    <td>${r.RouteName}</td>
-                    <td>${r.DistrictName}</td>
-                </tr>`;
+            <tr data-findoc="${r.FINDOC}" data-trdr="${r.TRDR}" data-mtrl="${r.MTRL}">
+                <td>
+                    <div class="status-bar">
+                        <div class="status-bar-fill ${statusClass}" style="width:${rawStatus}%;"></div>
+                        <span class="status-bar-text">${rawStatus.toFixed(2)}%</span>
+                    </div>
+                </td>
+                <td>${r.OrdStatus ?? ""}</td>
+                <td>${r.CCCNPCOMPENTENT ?? ""}</td>
+                <td>${r.Fason ?? ""}</td>
+                <td>${r.FinCode ?? ""}</td>
+                <td>${formatDate(r.TRNDATE)}</td>
+                <td>${r.CustomerName ?? ""}</td>
+                <td>${r.MpName ?? ""}</td>
+                <td>${r.Comments1 || ""}</td>
+                <td>${r.ItemCode ?? ""}</td>
+                <td>${r.ItemName ?? ""}</td>
+                <td class="text-center">${r.UnitShortcut ?? ""}</td>
+                <td class="text-center">${r.BUNAME ?? ""}</td>
+                <td class="text-end">${formatNumber(r.QTY1)}</td>
+                <td class="text-end">${formatNumber(r.QTY1NCOV)}</td>
+                <td class="text-end">${formatNumber(r.Inv)}</td>
+                <td class="text-end">${formatNumber(r.InvRem)}</td>
+                <td class="text-end">${formatNumber(r.RunningQty)}</td>
+                <td class="text-end">${formatNumber(r.PurRest)}</td>
+                <td class="text-end">${formatNumber(r.IntRest)}</td>
+                <td class="text-end">${formatNumber(r.ReservedPur)}</td>
+                <td class="text-end">${formatNumber(r.PurInvRem)}</td>
+                <td class="text-end">${formatNumber(r.WmsInAppro)}</td>
+                <td class="text-end">${formatNumber(r.WmsCusQty)}</td>
+                <td>${r.DelivDate ?? ""}</td>
+                <td>${r.RouteName ?? ""}</td>
+                <td>${r.DistrictName ?? ""}</td>
+            </tr>`;
             }
 
             document.getElementById("mrp-body").innerHTML = html;
+
+            // ---- SUM ROW: πρέπει να έχει ΑΚΡΙΒΩΣ ίδιο αριθμό στηλών με το header ----
+            const sumRow = document.getElementById("sum-row");
+            if (sumRow) {
+                sumRow.innerHTML = `
+                <td>Σύνολο</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+
+                <td class="text-end">${formatNumber(totals.QTY1)}</td>
+                <td class="text-end">${formatNumber(totals.QTY1NCOV)}</td>
+                <td class="text-end">${formatNumber(totals.Inv)}</td>
+                <td class="text-end">${formatNumber(totals.InvRem)}</td>
+                <td class="text-end">${formatNumber(totals.RunningQty)}</td>
+                <td class="text-end">${formatNumber(totals.PurRest)}</td>
+                <td class="text-end">${formatNumber(totals.IntRest)}</td>
+                <td class="text-end">${formatNumber(totals.ReservedPur)}</td>
+                <td class="text-end">${formatNumber(totals.PurInvRem)}</td>
+                <td class="text-end">${formatNumber(totals.WmsInAppro)}</td>
+                <td class="text-end">${formatNumber(totals.WmsCusQty)}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+            `;
+            }
+
+            // ---- Auto-fit ΜΕΤΑ το render (DOM πρέπει να έχει “κάτσει”) ----
+            requestAnimationFrame(() => {
+                autoFitColumns();
+            });
         }
+
 
 
         // ---------------------------------------------------------
@@ -819,7 +963,7 @@
                 rows: rowsForItem.map(r => ({
                     findoc: r.FINDOC,
                     finCode: r.FinCode,
-                    qtyNeed: r.QTY1NCOV,      
+                    qtyNeed: r.QTY1NCOV,
                     runningQty: r.RunningQty,
                     trndate: r.TRNDATE
                 }))
@@ -827,7 +971,7 @@
         });
 
 
-        
+
         document.getElementById("ctx-view-customer").addEventListener("click", function () {
             contextMenu.style.display = "none";
 
@@ -868,7 +1012,7 @@
 
         if (btnRefresh) {
             btnRefresh.addEventListener("click", function () {
-                
+
                 if (refreshSpinner) refreshSpinner.style.display = "inline-block";
                 btnRefresh.disabled = true;
 
@@ -1050,6 +1194,7 @@
                     // Μετά το move πρέπει να ξαναδέσουμε handlers (drag + resize) γιατί άλλαξαν τα th references
                     // (τα υπάρχοντα DOM elements παραμένουν, αλλά οι indices αλλάζουν)
                     initColumnResize();
+                    initColumnReorder();
                     initColumnReorder();
                 });
             });

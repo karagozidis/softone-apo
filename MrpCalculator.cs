@@ -16,7 +16,7 @@ namespace S1PluginProject
             var salList = LoadSalDoc();
             var balList = LoadBalStart();
 
-            
+
             var grouped = salList
                 .GroupBy(x => x.MTRL)
                 .ToDictionary(
@@ -41,7 +41,7 @@ namespace S1PluginProject
                 }
             }
 
-           
+
             Parallel.ForEach(salList, r =>
             {
                 decimal qty = r.QTY1NCOV;
@@ -55,7 +55,7 @@ namespace S1PluginProject
                     r.Inv = 0;
             });
 
-            
+
             ApplyPurchaseInfo(salList);
 
             ApplyPurchaseInvUsage(salList);
@@ -67,7 +67,6 @@ namespace S1PluginProject
             ApplyOrdStatus(salList);
 
             ApplyStatusPercent(salList);
-            //σχολιο 
 
             foreach (var r in salList)
             {
@@ -99,10 +98,10 @@ namespace S1PluginProject
                                                 "     GROUP BY AW.MTRL, AW.CUSCODE), " +
                                                 " WMSAPPRO AS (  " +
                                                 "     SELECT   CK.MTRL,    " +
-                                                "     SUM(ISNULL(CK.TONOIDESTROY, 0)) AS WMSINAPPRO    " +
+                                                "     ISNULL((SELECT TOP 1 ISNULL(CK2.TONOIDESTROY,0) FROM APO_SynolikoApothema CK2 WHERE CK2.PRD_ID = CK.PRD_ID ),0) AS WMSINAPPRO    " +
                                                 "     FROM APO_SynolikoApothema CK   " +
                                                 "     WHERE ISNULL(CK.Apothetis, '') = N'Αγχίαλος ' " +
-                                                "    GROUP BY CK.MTRL) " +
+                                                "    GROUP BY CK.MTRL,CK.PRD_ID) " +
                                                 " SELECT    MS.FINDOC,    " +
                                                 " MS.FINCODE, " +
                                                 " MT.DELIVDATE, " +
@@ -122,9 +121,9 @@ namespace S1PluginProject
                                                 " MS.QTY1NCOV,    " +
                                                 " MS.PRODUCT,    " +
                                                 " MS.BUSUNITS,    " +
-                                                " ISNULL(T.TRDR,0) AS TRDR, " + 
+                                                " ISNULL(T.TRDR,0) AS TRDR, " +
                                                 " MS.SOSOURCE,    " +
-                                                " ISNULL(F.CCCNPCOMPENTENT,'') AS CCCNPCOMPENTENT, " + 
+                                                " ISNULL(F.CCCNPCOMPENTENT,'') AS CCCNPCOMPENTENT, " +
                                                 " BU.NAME AS BUNAME,    " +
                                                 " T.NAME AS CUSTOMERNAME, " +
                                                 " (SELECT ISNULL(TT.NAME,'') FROM TRDR TT WHERE TT.TRDR = T.CCCNPGROUPTRDR) AS MP,  " +
@@ -139,8 +138,8 @@ namespace S1PluginProject
                                                 " LEFT JOIN TRDR T ON T.TRDR = F.TRDR " +
                                                 " INNER JOIN MTRL M ON M.MTRL = MS.MTRL " +
                                                 " LEFT JOIN MTRUNIT MRU ON MRU.MTRUNIT = M.MTRUNIT1  AND MRU.COMPANY = M.COMPANY " +
-                                                " LEFT JOIN BUSUNITS BU ON BU.BUSUNITS = M.BUSUNITS AND BU.COMPANY = M.COMPANY " + 
-                                                " LEFT JOIN WMSCUS ON    WMSCUS.MTRL = MS.MTRL    AND WMSCUS.CUSCODE COLLATE Greek_CI_AI = M.CODE COLLATE Greek_CI_AI " +
+                                                " LEFT JOIN BUSUNITS BU ON BU.BUSUNITS = M.BUSUNITS AND BU.COMPANY = M.COMPANY " +
+                                                " LEFT JOIN WMSCUS ON    WMSCUS.MTRL = MS.MTRL    AND WMSCUS.CUSCODE COLLATE Greek_CI_AI = T.CODE COLLATE Greek_CI_AI " +
                                                 " LEFT JOIN WMSAPPRO ON WMSAPPRO.MTRL = MS.MTRL  ORDER BY MS.FINDOC,MS.MTRLINES", null);
             var list = new List<MrpSalDocRow>(table.Count);
 
@@ -239,7 +238,7 @@ namespace S1PluginProject
 
         private static void ApplyPurchaseInfo(List<MrpSalDocRow> salList)
         {
-              
+
             var purList = LoadPurDoc();
 
             var totalPurByMtrl = purList
@@ -291,15 +290,15 @@ namespace S1PluginProject
 
                 foreach (var r in rows)
                 {
-                    
+
                     r.InvRem = r.QTY1NCOV - r.Inv;
 
                     runningInvRemSum += r.InvRem;
 
-                    
+
                     r.ReservedPur = totalPur - runningInvRemSum;
 
-                  
+
                     r.PurRest = purRestByMtrl.TryGetValue(mtrl, out var pr) ? pr : 0m;
                     r.IntRest = intRestByMtrl.TryGetValue(mtrl, out var ir) ? ir : 0m;
                 }
@@ -341,8 +340,8 @@ namespace S1PluginProject
 
         private static List<MrpPurDocOrdRow> LoadPurDocOrd()
         {
-            
-            
+
+
             XTable table = XSupport.GetSQLDataSet("SELECT MTRL, QTY1NCOV AS QTY FROM MRPPURDOCORD", null);
 
             var list = new List<MrpPurDocOrdRow>(table.Count);
@@ -361,10 +360,10 @@ namespace S1PluginProject
 
         private static void ApplyOrderReservation(List<MrpSalDocRow> salList)
         {
-           
+
             var ordList = LoadPurDocOrd();
 
-            
+
             var totalOrdByMtrl = ordList
                 .GroupBy(o => o.MTRL)
                 .ToDictionary(
@@ -372,7 +371,7 @@ namespace S1PluginProject
                     g => g.Sum(x => x.QTY)
                 );
 
-         
+
             var grouped = salList
                 .GroupBy(x => x.MTRL)
                 .ToDictionary(
@@ -392,10 +391,10 @@ namespace S1PluginProject
 
                 foreach (var r in rows)
                 {
-                   
+
                     runningPurInvRemSum += r.PurInvRem;
 
-                    
+
                     r.ReservedOrd = totalOrd - runningPurInvRemSum;
                 }
             }
@@ -465,11 +464,11 @@ namespace S1PluginProject
 
                 if (!mtrlTypes.TryGetValue(r.MTRL, out mtrType1))
                 {
-                    
+
                     mtrType1 = 0;
                 }
 
-                if (r.RunningQty >= 0 && mtrType1 != 1)
+                if (r.RunningQty >= 0 && r.SOSOURCE == 1351)
                 {
                     r.OrdStatus = "Διαθέσιμο προς δρομολόγηση";
                 }
@@ -477,9 +476,14 @@ namespace S1PluginProject
                 {
                     r.OrdStatus = "Προς Αγορά";
                 }
-                else if (r.RunningQty >= 0 && mtrType1 == 1)
+                else if (r.RunningQty >= 0 && r.SOSOURCE == 1151)
                 {
-                    r.OrdStatus = "Διαθέσιμο προς παραγωγή";
+                    r.OrdStatus = "Διαθέσιμο προς δρομολόγηση";
+                }
+
+                else if (r.RunningQty >= 0 && r.SOSOURCE == 1171)
+                {
+                    r.OrdStatus = "Διαθέσιμο για παραγωγή";
                 }
                 else if (r.RunningQty < 0 && mtrType1 == 1)
                 {
@@ -512,7 +516,7 @@ namespace S1PluginProject
                 }
                 else
                 {
-                    
+
                     r.StatusPercent = 0m;
                 }
             }

@@ -38,19 +38,19 @@ namespace S1PluginProject
         public decimal ReservedOrdRem { get; set; }
         public string OrdStatus { get; set; }
 
-        public string FinCode { get; set; }          
-        public DateTime? DelivDate { get; set; }    
-        public string DistrictName { get; set; }    
-        public string RouteName { get; set; }        
-        public string ItemCode { get; set; }         
-        public string ItemName { get; set; }        
-        public string UnitShortcut { get; set; }    
+        public string FinCode { get; set; }
+        public DateTime? DelivDate { get; set; }
+        public string DistrictName { get; set; }
+        public string RouteName { get; set; }
+        public string ItemCode { get; set; }
+        public string ItemName { get; set; }
+        public string UnitShortcut { get; set; }
 
-        public string CustomerName { get; set; }    
-        public string MpName { get; set; }          
-        public string Fason { get; set; }            
-        public decimal WmsCusQty { get; set; }       
-        public decimal WmsInAppro { get; set; }     
+        public string CustomerName { get; set; }
+        public string MpName { get; set; }
+        public string Fason { get; set; }
+        public decimal WmsCusQty { get; set; }
+        public decimal WmsInAppro { get; set; }
         public string Comments1 { get; set; }
 
         public string BUNAME { get; set; }
@@ -60,7 +60,9 @@ namespace S1PluginProject
         public decimal TRDR { get; set; }
 
         public string CCCNPCOMPENTENT { get; set; }
-       
+
+
+
     }
 
 }
