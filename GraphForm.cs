@@ -64,7 +64,7 @@ namespace S1PluginProject
                "S1PluginProject.graph.html", // ⚠️ άλλαξέ το αν το namespace/folder διαφέρει
                "graph.html"
            );
-
+            
             webView21.CoreWebView2.Navigate(new Uri(graphPath).AbsoluteUri);
 
            // string htmlPath = Path.Combine(Application.StartupPath, "graph.html");

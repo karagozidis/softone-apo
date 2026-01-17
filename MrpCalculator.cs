@@ -67,6 +67,7 @@ namespace S1PluginProject
             ApplyOrdStatus(salList);
 
             ApplyStatusPercent(salList);
+            //σχολιο 
 
             foreach (var r in salList)
             {
